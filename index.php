@@ -1,5 +1,4 @@
 <?php
-	session_start();
 	error_reporting (E_ALL & ~E_NOTICE);
 	// config file	
 	include('config.php');
@@ -15,14 +14,15 @@
 		foreach ($lines as $line_num => $line) {
 			$list[]=$line ;
 			$i++;
+			
 		}
 
-		$_SESSION['maxpage']=$i;
-		$_SESSION['arraypages']=$list;
+		$maxpage=$i;
+		$arraypages=$list;
 	}else{
 		echo"<b><center>Error : no comic file given</center></b>";
 		echo"<center>List :<center>";
-		$dh  = opendir($_SESSION['pages_dir']);
+		$dh  = opendir($pages_dir);
 		while (false !== ($filename = readdir($dh))) {
 			if( $filename != '.' && $filename != '..') {
            			echo "[ <a href=?id=". $filename.">".$filename."</a> ]";
@@ -30,9 +30,8 @@
 		}
 		die();
 	}
-	$dir=$_SESSION['pages_dir']."/".$file;
+	$dir=$pages_dir."/".$file;
 ?>
-
 
 <!DOCTYPE html>
 
@@ -86,7 +85,7 @@
 					break;
 
 					case "next":
-						if(page<<?php echo $_SESSION['maxpage']; ?>){
+						if(page<<?php echo $maxpage; ?>){
 							page=page +1;
 							clear();					
 							$("#page"+page).show();
@@ -95,7 +94,7 @@
 
 					case "end":
 						clear();
-						page=<?php echo $_SESSION['maxpage']; ?>;
+						page=<?php echo $maxpage; ?>;
 						$("#page"+page).show();
 					break;
 
@@ -104,7 +103,7 @@
 			}			
 			
 			var page = 0;
-			var pages_dir="<?php echo $_SESSION['pages_dir']; ?>";
+			var pages_dir="<?php echo $pages_dir; ?>";
 
 
 			
@@ -155,14 +154,13 @@
 		
 	</head>
 
-	<body>
 
 	<div id="nav" style="align:center">
-		<b>Title : <?php echo $file; ?>. Total pages : <?php echo $_SESSION['maxpage']; ?><b><br/>
-		<span class="navbutton" id="start"><img src="<?php echo $_SESSION['first_ico']; ?>" /></span>  
-		<span class="navbutton" id="prev"> <img src="<?php echo $_SESSION['prev_ico'];  ?>"/></span>
-		<span class="navbutton" id="next"> <img src="<?php echo $_SESSION['next_ico']; ?>"/></span>
-		<span class="navbutton" id="end">  <img src="<?php echo $_SESSION['end_ico'];   ?>"/></span>
+		<b>Title : <?php echo $file; ?>. Total pages : <?php echo $maxpage; ?><b><br/>
+		<span class="navbutton" id="start"><img src="<?php echo $first_ico; ?>" /></span>  
+		<span class="navbutton" id="prev"> <img src="<?php echo $prev_ico;  ?>"/></span>
+		<span class="navbutton" id="next"> <img src="<?php echo $next_ico; ?>"/></span>
+		<span class="navbutton" id="end">  <img src="<?php echo $end_ico;   ?>"/></span>
 	</div>
 
 	<div id="help">
@@ -182,11 +180,10 @@
 	<div class="comic">
 	
 	<?php
-		//debug
-		//var_dump($_SESSION['arraypages']);
+
 
 		$page=0;
-		foreach ($_SESSION['arraypages'] as $inc){
+		foreach ($arraypages as $inc){
 		$page++;
 		$f=explode("|",$inc);
 		$name = trim($f[1]);
