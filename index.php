@@ -89,7 +89,9 @@
 							page=page +1;
 							clear();					
 							$("#page"+page).show();
-						}	
+						}else{
+							start();						
+						}
 					break;
 
 					case "end":
