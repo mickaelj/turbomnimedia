@@ -56,3 +56,47 @@ embed {
 	margin : 2px;
 	cursor:pointer;
 }
+
+
+#container {
+        float:center;
+	width: 842px;
+	height: 480px;
+}
+#contentcomics {
+        float:left;
+	width: 642px;
+	height: 480px;
+}
+
+#navleft {
+        float:left;
+	width:50px;
+        height: 480px;
+}
+
+#navright {
+        float:left;
+	width:50px;
+        height: 480px;
+}
+
+#navfirst {
+        float:left;
+	width:50px;
+        height: 480px;
+
+}
+
+#navfirst img {
+	display:none;	
+}
+
+#navend {
+        float:left;
+	width:50px;
+        height: 480px;
+	display: none;
+}
+	display: none;
+}
