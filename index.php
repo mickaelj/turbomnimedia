@@ -44,11 +44,15 @@
 			$mycss=$dir."/".$file.".css";
 			if ( file_exists($mycss)){
 				echo '
-				<link rel="stylesheet" media="screen" type="text/css" title="'.$file.'" href="'.$mycss.'"/>
+				<link rel="stylesheet" media="screen" type="te$(".navbutton").click(function(){
+					nav(($(this).attr('id')));			
+				});xt/css" title="'.$file.'" href="'.$mycss.'"/>
 				';				
 			}else{
 				echo '
-				<link rel="stylesheet" media="screen" type="text/css" title="default" href="css/default.css"/>
+				<link rel="stylesheet" media="screen" type="te$(".navbutton").click(function(){
+					nav(($(this).attr('id')));			
+				});xt/css" title="default" href="css/default.css"/>
 				';
 }
 		?>
@@ -65,23 +69,33 @@
 			}
 
 			function start(){
+				$("#navfirst img").hide();
+				$("#navright").show();
+				$("#navend").hide();
 				clear();
 				$("#page1").show();
 				 page=1;
 			}
 
-			
-
-
 			function nav(type){
-
 				switch (type) {
+
+					case "start":
+						start();
+					break;
+
 					case "prev":
 						if(page>1){
 							page=page -1;
 							clear();					
 							$("#page"+page).show();
 						}
+						if(page>1){
+							$("#navfirst img").show()
+						}else{
+							$("#navfirst img").hide()
+						}
+					//if(page==0){$("#navfirst img").hide()};
 					break;
 
 					case "next":
@@ -89,15 +103,27 @@
 							page=page +1;
 							clear();					
 							$("#page"+page).show();
+							if(page>=0){$("#navfirst img").show()};
+							if(page==<?php echo $maxpage; ?>){
+								$("#navright").hide();
+								$("#navend").show();
+							
+							;}
 						}else{
+							
 							start();						
 						}
+						
 					break;
 
 					case "end":
 						clear();
 						page=<?php echo $maxpage; ?>;
 						$("#page"+page).show();
+					break;
+
+					case "return":
+						start();
 					break;
 
 
@@ -110,6 +136,7 @@
 
 			
 			$(document).ready(function(){
+
 
 
 				$("body").on("keydown", function(e){
@@ -131,22 +158,13 @@
 				 });
 
 				start();
-				
-				$("#start").click(function(){
-					start();
-				});
 
-				$("#prev").click(function(){
-					nav("prev");
+
+				$(".navbutton").click(function(){
+					nav(($(this).attr('id')));			
 				});
 				
-				$("#next").click(function(){
-					nav("next");
-				});
-
-				$("#end").click(function(){
-					nav("end");
-				});
+				
 			});
 
 
@@ -165,21 +183,17 @@
 		<span class="navbutton" id="end">  <img src="<?php echo $end_ico;   ?>"/></span>
 	</div>
 
-	<div id="help">
-	<h2> Help !</h2>
-	<h3> Keys :</h3>
-	h : this help <br/>
-	key up : start page</br>
-	key left : previous page </br>	
-	key right : next page </br>
-	key down : last page</br>
-	<h3>Custom CSS</h3>
-	Create your own CSS file in your comic folder and name it with the same name with .CSS extension. If exist, this CSS will be prioritary
- 
-	</div>
+<center>
+	<div id="container">
+	
+	<div id="navfirst" style="align:left">
+ 		<span class="navbutton" id="start"> <img src="first.png"/></span>
+        </div>
+	<div id="navleft" style="align:left">
+		<span class="navbutton" id="prev"> <img src="prev.png"/></span>
+        </div>
 
-
-	<div class="comic">
+	<div class="comic" id="contentcomics">
 	
 	<?php
 
@@ -203,6 +217,7 @@
 		}
 			
 		echo "<div class='page' id='page".$page."'>";	
+
 		echo $src;
 
 		echo "</div>";
@@ -212,9 +227,13 @@
 							
 	?>
 	</div>
-	<div>
-
-	</div>
+	<div id="navright" style="align:right">
+ 		<span class="navbutton" id="next"> <img src="next.png"/></span>
+        </div>
+	<div id="navend" style="align:right">
+ 		<span class="navbutton" id="return"> <img src="first.png"/></span>
+        </div>
+</center>
 	</body>
 
 </html>
